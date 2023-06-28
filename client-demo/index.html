@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body x-data="app()" class="bg-gray-100 py-20">
+  <div class="flex justify-center">
+      <div class="p-6 bg-white rounded-xl shadow-md w-1/2">
+          <h2 class="text-xl font-semibold text-gray-800 mb-6">AI Prediction App</h2>
+
+          <input id="input-text" x-model="inputText" type="text" class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none mt-2" placeholder="Type something..."/>
+
+          <button @click="submit" class="mt-6 px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+              Submit
+          </button>
+
+          <label for="results" class="text-gray-600 font-semibold mt-6">Results</label>
+          <textarea id="results" readonly x-text="result" class="mt-2 w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" rows="4"></textarea>
+      </div>
+  </div>
+
+  
+  <script>
+  function app() {
+      return {
+          inputText: '',
+          result: '',
+          async submit() {
+              const requestData = {
+                  "data": [this.inputText],
+                  "event_data": null,
+                  "fn_index": 0,
+                  "session_hash": "adq02ktdmqp"
+              };
+
+              const response = await fetch('http://localhost:7860/run/predict', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(requestData)
+              });
+
+              if (!response.ok) {
+                  this.result = "Error: " + response.status;
+                  return;
+              }
+
+              const responseData = await response.json();
+              this.result = responseData.data[0];
+          }
+      }
+  }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</body>
+
+</html>

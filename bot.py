@@ -18,7 +18,7 @@ from langchain.chat_models import ChatOpenAI
 import gradio as gr
 import os
 
-os.environ["OPENAI_API_KEY"] = "sk-xx";
+os.environ["OPENAI_API_KEY"] = "sk-**";
 
 
 # This function builds an index using the GPT-4 model.
@@ -75,4 +75,4 @@ iface = gr.Interface(
 # The script creates the index and launches the Gradio interface.
 # The share=True argument means that a publicly shareable link to the interface is created (server runs locally)
 index = construct_index("docs")
-iface.launch(share=True)
+iface.launch(share=False,  debug=True)

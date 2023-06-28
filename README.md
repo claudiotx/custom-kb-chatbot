@@ -46,7 +46,13 @@ python3 bot.py
 ```
 
 
-You should now be able to interact with your AI chatbot through the web interface!
+You should now be able to interact with your AI chatbot through the Gradio web interface!
+
+## Containerization
+`docker build -t kb-predictor .`
+`docker run -p 7860:7860 kb-predictor`
+`docker run -e OPENAI_API_KEY=your_api_key -p 7860:7860 kb-predictor`
+
 
 ## License
 
